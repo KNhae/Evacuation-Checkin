@@ -41,9 +41,9 @@ This application allows users to check in and confirm their presence with minima
    - Create a `.env` file in the root directory.
    - Add the following variables:
      ```
-     API_CONFIG_SERVER=<API Web Server URL>
-     API_CONFIG_USERNAME=<Your API Username>
-     API_CONFIG_PASSWORD=<Your API Password>
+     API_SERVER=<API Web Server URL>
+     API_USERNAME=<Your API Username>
+     API_PASSWORD=<Your API Password>
      ```
 
 4. Start the application:
