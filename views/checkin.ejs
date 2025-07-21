@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background elements */
+        .bg-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            top: 70%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            width: 100px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 50px;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 3rem 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            margin-bottom: 2.5rem;
+        }
+
+        .emergency-icon {
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        .emergency-icon img {
+            width: 96px;
+            height: 96px;
+            object-fit: contain; /* This ensures the image maintains its aspect ratio */
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(82, 92, 238, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(85, 82, 238, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(116, 82, 238, 0); }
+        }
+
+        /* .emergency-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        } */
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #1f2937;
+            background: #ffffff;
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        input[type="text"].error {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.1rem 2rem;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.error {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .message.success {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+
+        .security-note {
+            margin-top: 2rem;
+            padding: 1.25rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid #1e40af;
+            text-align: left;
+        }
+
+        .security-note h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .security-note p {
+            font-size: 0.85rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body { padding: 15px; }
+            .container { padding: 2.5rem 2rem; border-radius: 20px; }
+            h1 { font-size: 1.8rem; }
+            .subtitle { font-size: 0.95rem; }
+            .emergency-icon { width: 56px; height: 56px; margin-bottom: 1.25rem; }
+            .emergency-icon svg { width: 28px; height: 28px; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 2rem 1.5rem; border-radius: 16px; }
+            h1 { font-size: 1.6rem; }
+            .subtitle { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    
+
+    <div class="container">
+        <div class="header">
+            <div class="emergency-icon">
+                <img src="/Evacuation-blue.png" alt="Evacuation Blue" onerror="this.onerror=null; console.log('Image failed to load');">
+                <!-- <svg viewBox="0 0 24 24">
+                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 7V9C15 9.55 14.55 10 14 10S13 9.55 13 9V7L11 7V9C11 9.55 10.45 10 10 10S9 9.55 9 9V7L3 7V9C3 10.1 3.9 11 5 11V22H7V11H9V22H11V11H13V22H15V11H17V22H19V11C20.1 11 21 10.1 21 9Z" />
+                </svg> -->
+            </div>
+            <h1>Evacuation Check-in</h1>
+            <p class="subtitle">Confirm your safety status</p>
+        </div>
+
+        <form action="/checkin" method="post">
+            <div class="form-group">
+                <label for="employee-number">Employee Number (EN)</label>
+                <div class="input-container">
+                    <input type="text"
+                           id="employee-number"
+                           name="en"
+                           maxlength="8"
+                           placeholder="e.g. 1A234567"
+                           autocomplete="off"
+                           spellcheck="false"
+                           required />
+                </div>
+            </div>
+
+            <!-- Display success message if present -->
+            <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+            <div class="message success">
+                <%= successMessage %>
+            </div>
+            <% } %>
+
+            <!-- Display error message if present -->
+            <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+            <div class="message error">
+                <%= errorMessage %>
+            </div>
+            <% } %>
+
+            <button type="submit" class="submit-btn">
+                Check In
+            </button>
+        </form>
+
+
+
+        <div class="security-note">
+            <h3>🔐 Secure Check-in</h3>
+            <p>Your employee number is used solely for emergency headcount verification.</p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.querySelector('form');
+        const input = document.getElementById('employee-number');
+
+        // Auto-format input as user types
+        input.addEventListener('input', (e) => {
+            let value = e.target.value.toUpperCase();
+            // Remove any non-alphanumeric characters
+            value = value.replace(/[^A-Z0-9]/g, '');
+            // Limit to 8 characters
+            if (value.length > 8) {
+                value = value.substring(0, 8);
+            }
+            e.target.value = value;
+        });
+
+        // Clear messages when user starts typing
+        input.addEventListener('input', () => {
+            const messages = document.querySelectorAll('.message');
+            messages.forEach(msg => msg.remove());
+        });
+
+        // Focus input on page load
+        window.addEventListener('load', () => {
+            input.focus();
+        });
+
+        // Auto-clear success message after 5 seconds
+        const successMessage = document.querySelector('.message.success');
+        if (successMessage) {
+            setTimeout(() => {
+                successMessage.style.transition = 'opacity 0.5s ease';
+                successMessage.style.opacity = '0';
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 500);
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background elements */
+        .bg-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            top: 70%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            width: 100px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 50px;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 3rem 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            margin-bottom: 2.5rem;
+        }
+
+        .confirmation-icon {
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: checkPulse 2s infinite;
+        }
+
+        .confirmation-icon img {
+            width: 96px;
+            height: 96px;
+            object-fit: contain; /* This ensures the image maintains its aspect ratio */
+        }
+
+        @keyframes checkPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        /* .confirmation-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        } */
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .info-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: left;
+            animation: fadeIn 0.6s ease-out 0.3s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: #1f2937;
+            font-size: 1rem;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            background: #ffffff;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+        }
+
+        .employee-name {
+            font-family: inherit;
+            background: linear-gradient(135deg, #10b981, #059669);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        button, .btn {
+            flex: 1;
+            padding: 1.1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .confirm-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .confirm-btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: #f8fafc;
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #f1f5f9;
+            color: #475569;
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+            text-decoration: none;
+        }
+
+        .btn-secondary:active {
+            transform: translateY(0);
+        }
+
+        .confirm-btn.loading {
+            pointer-events: none;
+        }
+
+        .confirm-btn .btn-text {
+            transition: opacity 0.3s ease;
+        }
+
+        .confirm-btn.loading .btn-text {
+            opacity: 0;
+        }
+
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .confirm-btn.loading .loading-spinner {
+            opacity: 1;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .security-note {
+            padding: 1.25rem;
+            background: #f0fdf4;
+            border-radius: 12px;
+            border-left: 4px solid #10b981;
+            text-align: left;
+            animation: fadeIn 0.6s ease-out 0.6s both;
+        }
+
+        .security-note h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #065f46;
+            margin-bottom: 0.5rem;
+        }
+
+        .security-note p {
+            font-size: 0.85rem;
+            color: #047857;
+            line-height: 1.5;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .container {
+                padding: 2.5rem 2rem;
+                margin: 0;
+                max-width: 100%;
+                border-radius: 20px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .subtitle {
+                font-size: 0.95rem;
+            }
+            .confirmation-icon {
+                width: 56px;
+                height: 56px;
+                margin-bottom: 1.25rem;
+            }
+            .confirmation-icon svg {
+                width: 28px;
+                height: 28px;
+            }
+            .info-card {
+                padding: 1.25rem;
+            }
+            .buttons {
+                gap: 0.75rem;
+            }
+            button, .btn {
+                padding: 1.05rem 1.75rem;
+                font-size: 1.05rem;
+            }
+            .security-note {
+                padding: 1rem;
+            }
+            .security-note h3 {
+                font-size: 0.85rem;
+            }
+            .security-note p {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 2rem 1.5rem;
+                border-radius: 16px;
+            }
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 0.25rem;
+            }
+            .subtitle {
+                font-size: 0.9rem;
+            }
+            .header {
+                margin-bottom: 2rem;
+            }
+            .confirmation-icon {
+                width: 52px;
+                height: 52px;
+                margin-bottom: 1rem;
+            }
+            .confirmation-icon svg {
+                width: 26px;
+                height: 26px;
+            }
+            .info-card {
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+                padding: 0.5rem 0;
+            }
+            .info-value {
+                font-size: 0.9rem;
+                padding: 0.3rem 0.6rem;
+            }
+            .buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            button, .btn {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+                border-radius: 14px;
+            }
+            .security-note {
+                padding: 1rem;
+                border-radius: 10px;
+            }
+            .security-note h3 {
+                font-size: 0.8rem;
+            }
+            .security-note p {
+                font-size: 0.75rem;
+            }
+            .shape:nth-child(1) {
+                width: 60px;
+                height: 60px;
+                top: 5%;
+                left: 5%;
+            }
+            .shape:nth-child(2) {
+                width: 45px;
+                height: 45px;
+                top: 75%;
+                right: 10%;
+            }
+            .shape:nth-child(3) {
+                width: 80px;
+                height: 30px;
+                bottom: 15%;
+                left: 15%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="confirmation-icon">
+                <img src="/Evacuation-green.png" alt="Evacuation Green" onerror="this.onerror=null; console.log('Image failed to load');">
+                <!-- <svg viewBox="0 0 24 24">
+                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 7V9C15 9.55 14.55 10 14 10S13 9.55 13 9V7L11 7V9C11 9.55 10.45 10 10 10S9 9.55 9 9V7L3 7V9C3 10.1 3.9 11 5 11V22H7V11H9V22H11V11H13V22H15V11H17V22H19V11C20.1 11 21 10.1 21 9Z" />
+                    <path d="M9 16L11 18L15 14" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                </svg> -->
+            </div>
+            <h1>Confirm Your Information</h1>
+            <p class="subtitle">Please verify your details before check-in</p>
+        </div>
+
+        <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+        <div class="error-message">
+            <%= errorMessage %>
+        </div>
+        <% } %>
+
+        <div class="info-card">
+            <div class="info-row">
+                <span class="info-label">Employee Number:</span>
+                <span class="info-value" id="emp-number"><%= employee.en %></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Employee Name:</span>
+                <span class="info-value employee-name" id="emp-name"><%= employee.name %></span>
+            </div>
+            <% if (employee.department && employee.department.trim() !== '') { %>
+            <div class="info-row">
+                <span class="info-label">Department:</span>
+                <span class="info-value" id="emp-department"><%= employee.department %></span>
+            </div>
+            <% } %>
+        </div>
+
+        <form action="/confirm" method="post">
+            <input type="hidden" name="en" value="<%= employee.en %>">
+            
+            <div class="buttons">
+                <button type="submit" class="confirm-btn" id="confirm-btn">
+                    <span class="btn-text">✓ Confirm Check-in</span>
+                    <div class="loading-spinner"></div>
+                </button>
+                <a href="/checkin" class="btn btn-secondary">
+                    <span>←</span>
+                    Go Back
+                </a>
+            </div>
+        </form>
+
+        <div class="security-note">
+            <h3>✅ Secure Confirmation</h3>
+            <p>Your check-in will be immediately logged. This confirms your safety status during the evacuation procedure.</p>
+        </div>
+    </div>
+
+    <script>
+        function setButtonLoading(loading) {
+            const button = document.getElementById('confirm-btn');
+            if (loading) {
+                button.classList.add('loading');
+                button.disabled = true;
+            } else {
+                button.classList.remove('loading');
+                button.disabled = false;
+            }
+        }
+
+        // Handle form submission with loading state
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form');
+            const confirmBtn = document.getElementById('confirm-btn');
+
+            if (form && confirmBtn) {
+                form.addEventListener('submit', (e) => {
+                    setButtonLoading(true);
+                });
+            }
+
+            // Add keyboard support
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !confirmBtn.disabled) {
+                    form.submit();
+                } else if (e.key === 'Escape') {
+                    window.location.href = '/checkin';
+                }
+            });
+        });
+
+        // Reset loading state if there's an error
+        window.addEventListener('load', () => {
+            setButtonLoading(false);
+        });
+    </script>
+</body>
+</html>

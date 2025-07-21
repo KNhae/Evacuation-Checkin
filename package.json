@@ -1,0 +1,36 @@
+{
+  "name": "evacuation-checkin-system",
+  "version": "1.0.0",
+  "description": "Emergency evacuation check-in system",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.6.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "mssql": "^10.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "evacuation",
+    "emergency",
+    "checkin",
+    "express",
+    "nodejs",
+    "mssql",
+    "api"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
