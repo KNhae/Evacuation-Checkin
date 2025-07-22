@@ -87,12 +87,12 @@ This application allows users to check in and confirm their presence with minima
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
-
+<!--
 ## Acknowledgements
 
 - Contributors and maintainers of the project.
 - Open-source libraries and tools used in the development of this application.
-
+-->
 ---
 
 Feel free to reach out if you encounter any issues or have suggestions for improvement.
